@@ -61,7 +61,7 @@ namespace HotelSystemProject
                         cmd.ExecuteNonQuery();
                     }
 
-                    MessageBox.Show("Müşteri kaydı başarılı!");
+                    MessageBox.Show("Customer registration succesful!");
 
                     
                     textName.Clear();
@@ -72,7 +72,7 @@ namespace HotelSystemProject
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Kaydetme sırasında bir hata oluştu: " + ex.Message);
+                MessageBox.Show("An error occurred while saving: " + ex.Message);
             }
         }
 
