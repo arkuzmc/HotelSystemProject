@@ -49,7 +49,7 @@ namespace HotelSystemProject
                     
                     context.Table_1.Add(newPersonel);
                     context.SaveChanges();
-                    MessageBox.Show("Yeni personel başarıyla eklendi");
+                    MessageBox.Show("New personal success added !");
 
                     
                     this.Form3_Load(sender, e);  
@@ -57,7 +57,7 @@ namespace HotelSystemProject
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Personel ekleme hatası: " + ex.Message);
+                MessageBox.Show("Personel add error: " + ex.Message);
             }
         }
 
@@ -82,20 +82,20 @@ namespace HotelSystemProject
 
                         
                         context.SaveChanges();
-                        MessageBox.Show("Personel başarıyla güncellendi!");
+                        MessageBox.Show("Personel Updated!");
 
                         
                         this.Form3_Load(sender, e);  
                     }
                     else
                     {
-                        MessageBox.Show("Personel bulunamadı.");
+                        MessageBox.Show("Personel not found !");
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Personel güncelleme hatası: " + ex.Message);
+                MessageBox.Show("Personel update error!" + ex.Message);
             }
         }
 
@@ -117,20 +117,20 @@ namespace HotelSystemProject
                         
                         context.Table_1.Remove(personel);
                         context.SaveChanges();
-                        MessageBox.Show("Personel başarıyla silindi!");
+                        MessageBox.Show("Personel deleted !");
 
                         
                         this.Form3_Load(sender, e);  
                     }
                     else
                     {
-                        MessageBox.Show("Personel bulunamadı.");
+                        MessageBox.Show("Personel not found.");
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Personel silme hatası: " + ex.Message);
+                MessageBox.Show("Personel delete error: " + ex.Message);
             }
         }
 
