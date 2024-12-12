@@ -17,12 +17,12 @@ namespace HotelSystemProject
             roomsTableAdapter = new HotelSystemDataSet2TableAdapters.RoomsTableAdapter();
         }
 
-        // Form yüklendiğinde oda bilgilerini al
+        
         private void Form5_Load(object sender, EventArgs e)
         {
             try
             {
-                // Oda tablosunu yükle
+                
                 roomsTableAdapter.Fill(hotelSystemDataSet2.Rooms);
                 dataGridView1.DataSource = hotelSystemDataSet2.Rooms;
             }
@@ -32,23 +32,23 @@ namespace HotelSystemProject
             }
         }
 
-        // Save butonuna tıklanma işlemi
+        
         private void saveButton_Click(object sender, EventArgs e)
         {
             try
             {
-                // Müşteri bilgilerini al
+                
                 string customerName = textName.Text;
                 string customerMail = textMail.Text;
                 string customerID = textIDNo.Text;
                 string customerPhone = maskedTextBox1.Text;
 
-                // SQL Bağlantısı kullanarak veritabanına kayıt yapıyoruz
+                
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
 
-                    // Müşteri bilgilerini veritabanına ekleyen SQL komutu
+                    
                     string query = "INSERT INTO Customers (CustomerName, CustomerEmail, CustomerID, CustomerPhone) " +
                                    "VALUES (@CustomerName, @CustomerEmail, @CustomerID, @CustomerPhone);";
 
@@ -63,7 +63,7 @@ namespace HotelSystemProject
 
                     MessageBox.Show("Müşteri kaydı başarılı!");
 
-                    // Kaydettikten sonra formu sıfırlama işlemi
+                    
                     textName.Clear();
                     textMail.Clear();
                     textIDNo.Clear();
