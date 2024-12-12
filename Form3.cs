@@ -11,18 +11,18 @@ namespace HotelSystemProject
             InitializeComponent();
         }
 
-        // Form yüklendiğinde DataGridView'e verileri bağlama
+        
         private void Form3_Load(object sender, EventArgs e)
         {
             try
             {
-                // Entity Framework ile bağlanıyoruz
+                z
                 using (var context = new HotelSystemEntities())
                 {
-                    // Table_1 tablosundaki tüm verileri alıyoruz
+                    
                     var personelListesi = context.Table_1.ToList();
 
-                    // Verileri DataGridView'e bağlıyoruz
+                    
                     dataGridView1.DataSource = personelListesi;
                 }
             }
@@ -32,27 +32,27 @@ namespace HotelSystemProject
             }
         }
 
-        // Add Personel Butonu (button1)
+        
         private void button1_Click(object sender, EventArgs e)
         {
             try
             {
-                // Yeni personel ekliyoruz
+                
                 using (var context = new HotelSystemEntities())
                 {
                     var newPersonel = new Table_1
                     {
-                        Username = txtUsername.Text,  // TextBox'tan alınan veriler
+                        Username = txtUsername.Text,  
                         Password = txtPassword.Text
                     };
 
-                    // Personeli veritabanına ekliyoruz
+                    
                     context.Table_1.Add(newPersonel);
                     context.SaveChanges();
                     MessageBox.Show("Yeni personel başarıyla eklendi");
 
-                    // Verileri güncelliyoruz
-                    this.Form3_Load(sender, e);  // Form verilerini güncelle
+                    
+                    this.Form3_Load(sender, e);  
                 }
             }
             catch (Exception ex)
@@ -61,31 +61,31 @@ namespace HotelSystemProject
             }
         }
 
-        // Update Personel Butonu (button2)
+        
         private void button2_Click(object sender, EventArgs e)
         {
             try
             {
-                // Seçilen personelin ID'sini alıyoruz
+                
                 var personelId = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells[0].Value);
 
                 using (var context = new HotelSystemEntities())
                 {
-                    // Personeli veritabanından buluyoruz
+                    
                     var personel = context.Table_1.FirstOrDefault(p => p.PersonelID == personelId);
 
                     if (personel != null)
                     {
-                        // TextBox'lardaki bilgileri güncelliyoruz
+                        
                         personel.Username = txtUsername.Text;
                         personel.Password = txtPassword.Text;
 
-                        // Veritabanında güncelleniyor
+                        
                         context.SaveChanges();
                         MessageBox.Show("Personel başarıyla güncellendi!");
 
-                        // Verileri güncelliyoruz
-                        this.Form3_Load(sender, e);  // Form verilerini güncelle
+                        
+                        this.Form3_Load(sender, e);  
                     }
                     else
                     {
@@ -99,28 +99,28 @@ namespace HotelSystemProject
             }
         }
 
-        // Delete Personel Butonu (button3)
+        
         private void button3_Click(object sender, EventArgs e)
         {
             try
             {
-                // Seçilen personelin ID'sini alıyoruz
+                
                 var personelId = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells[0].Value);
 
                 using (var context = new HotelSystemEntities())
                 {
-                    // Personeli veritabanından buluyoruz
+                    
                     var personel = context.Table_1.FirstOrDefault(p => p.PersonelID == personelId);
 
                     if (personel != null)
                     {
-                        // Personeli siliyoruz
+                        
                         context.Table_1.Remove(personel);
                         context.SaveChanges();
                         MessageBox.Show("Personel başarıyla silindi!");
 
-                        // Verileri güncelliyoruz
-                        this.Form3_Load(sender, e);  // Form verilerini güncelle
+                        
+                        this.Form3_Load(sender, e);  
                     }
                     else
                     {
@@ -134,12 +134,12 @@ namespace HotelSystemProject
             }
         }
 
-        // FillBy ToolStripButton Event'i
+        
         private void fillByToolStripButton_Click(object sender, EventArgs e)
         {
             try
             {
-                // FillBy metoduyla veri çekme işlemi
+                
                 this.table_1TableAdapter.FillBy(this.hotelSystemDataSet.Table_1);
                 dataGridView1.DataSource = this.hotelSystemDataSet.Table_1;
             }
