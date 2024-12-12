@@ -19,19 +19,19 @@ namespace HotelSystemProject
 
         private void button3_Click(object sender, EventArgs e)
         {
-            // Form3'ü açmak
+            
             Form3 form3 = new Form3();
-            form3.Show();  // Yeni bir Form3 örneği oluşturup açıyoruz
-            this.Hide();   // MainScreen formunu gizliyoruz
+            form3.Show();  
+            this.Hide();   
         }
 
-        // button2_Click Olayı
+        
         private void button2_Click(object sender, EventArgs e)
         {
-            // Form4'ü açmak
+            
             Form4 form4 = new Form4();
-            form4.Show();  // Yeni bir Form4 örneği oluşturup açıyoruz
-            this.Hide();   // MainScreen formunu gizliyoruz
+            form4.Show();  
+            this.Hide();   
         }
 
        
