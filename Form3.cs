@@ -28,7 +28,7 @@ namespace HotelSystemProject
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Veri yükleme hatası: " + ex.Message);
+                MessageBox.Show("Veri upload error: " + ex.Message);
             }
         }
 
