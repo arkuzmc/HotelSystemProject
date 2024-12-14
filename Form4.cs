@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Data;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace HotelSystemProject
@@ -13,10 +14,13 @@ namespace HotelSystemProject
 
         private void Form4_Load(object sender, EventArgs e)
         {
-            
             try
             {
-                this.reservationsTableAdapter.Fill(this.hotelSystemDataSet1.Reservations);
+                using (var context = new HotelSystemEntities())
+                {
+                    var reservations = context.Reservations.ToList();
+                    dataGridView1.DataSource = reservations; 
+                }
             }
             catch (Exception ex)
             {
@@ -24,7 +28,6 @@ namespace HotelSystemProject
             }
         }
 
-        
         private void btnSaveReservation_Click(object sender, EventArgs e)
         {
             try
@@ -32,17 +35,24 @@ namespace HotelSystemProject
                 DateTime checkInDate = dateTimePicker1.Value;
                 DateTime checkOutDate = dateTimePicker2.Value;
 
-                this.reservationsTableAdapter.Insert(
-                    int.Parse(txtCustomerID.Text),  
-                    int.Parse(txtRoomID.Text),     
-                    checkInDate,                   
-                    checkOutDate,                  
-                    decimal.Parse(txtTotalPrice.Text), 
-                    "Active" 
-                );
+                using (var context = new HotelSystemEntities())
+                {
+                    var reservation = new Reservation
+                    {
+                        CustomerID = int.Parse(txtCustomerID.Text),
+                        RoomID = int.Parse(txtRoomID.Text),
+                        CheckInDate = checkInDate,
+                        CheckOutDate = checkOutDate,
+                        TotalPrice = decimal.Parse(txtTotalPrice.Text),
+                        Status = "Active"
+                    };
+
+                    context.Reservations.Add(reservation);
+                    context.SaveChanges();
+                }
 
                 MessageBox.Show("Reservation saved successfully.");
-                this.reservationsTableAdapter.Fill(this.hotelSystemDataSet1.Reservations);
+                Form4_Load(sender, e); 
             }
             catch (Exception ex)
             {
@@ -50,7 +60,6 @@ namespace HotelSystemProject
             }
         }
 
-        
         private void btnUpdateReservation_Click(object sender, EventArgs e)
         {
             try
@@ -58,18 +67,26 @@ namespace HotelSystemProject
                 DateTime checkInDate = dateTimePicker1.Value;
                 DateTime checkOutDate = dateTimePicker2.Value;
 
-                this.reservationsTableAdapter.Update(
-                    int.Parse(txtCustomerID.Text),  
-                    int.Parse(txtRoomID.Text),     
-                    checkInDate,                   
-                    checkOutDate,                  
-                    decimal.Parse(txtTotalPrice.Text), 
-                    "Active", 
-                    int.Parse(txtReservationID.Text)  
-                );
+                using (var context = new HotelSystemEntities())
+                {
+                    int reservationID = int.Parse(txtReservationID.Text);
+                    var reservation = context.Reservations.FirstOrDefault(r => r.ReservationID == reservationID);
+
+                    if (reservation != null)
+                    {
+                        reservation.CustomerID = int.Parse(txtCustomerID.Text);
+                        reservation.RoomID = int.Parse(txtRoomID.Text);
+                        reservation.CheckInDate = checkInDate;
+                        reservation.CheckOutDate = checkOutDate;
+                        reservation.TotalPrice = decimal.Parse(txtTotalPrice.Text);
+                        reservation.Status = "Active";
+
+                        context.SaveChanges();
+                    }
+                }
 
                 MessageBox.Show("Reservation updated successfully.");
-                this.reservationsTableAdapter.Fill(this.hotelSystemDataSet1.Reservations);
+                Form4_Load(sender, e); 
             }
             catch (Exception ex)
             {
@@ -77,23 +94,24 @@ namespace HotelSystemProject
             }
         }
 
-        
         private void btnDeleteReservation_Click(object sender, EventArgs e)
         {
             try
             {
-                this.reservationsTableAdapter.Delete(
-                    int.Parse(txtReservationID.Text),  
-                    int.Parse(txtCustomerID.Text),     
-                    int.Parse(txtRoomID.Text),         
-                    dateTimePicker1.Value,             
-                    dateTimePicker2.Value,             
-                    decimal.Parse(txtTotalPrice.Text), 
-                    "Active"                           
-                );
+                using (var context = new HotelSystemEntities())
+                {
+                    int reservationID = int.Parse(txtReservationID.Text);
+                    var reservation = context.Reservations.FirstOrDefault(r => r.ReservationID == reservationID);
+
+                    if (reservation != null)
+                    {
+                        context.Reservations.Remove(reservation);
+                        context.SaveChanges();
+                    }
+                }
 
                 MessageBox.Show("Reservation deleted successfully.");
-                this.reservationsTableAdapter.Fill(this.hotelSystemDataSet1.Reservations);
+                Form4_Load(sender, e); -
             }
             catch (Exception ex)
             {
