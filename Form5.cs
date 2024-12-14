@@ -1,12 +1,11 @@
-﻿using System;
-using System.Data.SqlClient;
+using System;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace HotelSystemProject
 {
     public partial class Form5 : Form
     {
-        private string connectionString = "Server=DESKTOP-VMGKG2U\\SQLEXPRESS;Database=HotelSystem;Trusted_Connection=True;";
         private HotelSystemDataSet2 hotelSystemDataSet2;
         private HotelSystemDataSet2TableAdapters.RoomsTableAdapter roomsTableAdapter;
 
@@ -17,12 +16,10 @@ namespace HotelSystemProject
             roomsTableAdapter = new HotelSystemDataSet2TableAdapters.RoomsTableAdapter();
         }
 
-        
         private void Form5_Load(object sender, EventArgs e)
         {
             try
             {
-                
                 roomsTableAdapter.Fill(hotelSystemDataSet2.Rooms);
                 dataGridView1.DataSource = hotelSystemDataSet2.Rooms;
             }
@@ -32,43 +29,35 @@ namespace HotelSystemProject
             }
         }
 
-        
         private void saveButton_Click(object sender, EventArgs e)
         {
             try
             {
-                
                 string customerName = textName.Text;
                 string customerMail = textMail.Text;
                 string customerID = textIDNo.Text;
                 string customerPhone = maskedTextBox1.Text;
 
-                
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (var context = new HotelSystemEntities())
                 {
-                    conn.Open();
-
-                    
-                    string query = "INSERT INTO Customers (CustomerName, CustomerEmail, CustomerID, CustomerPhone) " +
-                                   "VALUES (@CustomerName, @CustomerEmail, @CustomerID, @CustomerPhone);";
-
-                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    var customer = new Customer
                     {
-                        cmd.Parameters.AddWithValue("@CustomerName", customerName);
-                        cmd.Parameters.AddWithValue("@CustomerEmail", customerMail);
-                        cmd.Parameters.AddWithValue("@CustomerID", customerID);
-                        cmd.Parameters.AddWithValue("@CustomerPhone", customerPhone);
-                        cmd.ExecuteNonQuery();
-                    }
+                        CustomerName = customerName,
+                        CustomerEmail = customerMail,
+                        CustomerID = customerID,
+                        CustomerPhone = customerPhone
+                    };
 
-                    MessageBox.Show("Customer registration succesful!");
-
-                    
-                    textName.Clear();
-                    textMail.Clear();
-                    textIDNo.Clear();
-                    maskedTextBox1.Clear();
+                    context.Customers.Add(customer);
+                    context.SaveChanges();
                 }
+
+                MessageBox.Show("Customer registration successful!");
+
+                textName.Clear();
+                textMail.Clear();
+                textIDNo.Clear();
+                maskedTextBox1.Clear();
             }
             catch (Exception ex)
             {
@@ -87,7 +76,6 @@ namespace HotelSystemProject
                 MessageBox.Show(ex.Message);
             }
         }
-
         private void fillBy1ToolStripButton_Click(object sender, EventArgs e)
         {
             try
